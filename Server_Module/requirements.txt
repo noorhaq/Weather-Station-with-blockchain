@@ -1,0 +1,6 @@
+aiocoap==0.4
+paho-mqtt==1.6.1
+flask==3.0.3
+python-dotenv==0.20.0
+quart==0.19.6
+uvicorn

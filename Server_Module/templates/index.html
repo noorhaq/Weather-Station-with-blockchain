@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>COAP Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #3e8e41;
+        }
+
+        .column {
+            float: left;
+            width: 50%;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>COAP Client</h1>
+        <div class="row">
+            <div class="column">
+                <h2>COAP Client</h2>
+                <button class="button" id="temperature-button">Get Temperature</button>
+                <button class="button" id="humidity-button">Get Humidity</button>
+                <div id="coap-result"></div>
+            </div>
+            <div class="column">
+                <h2>MQTT Broker</h2>
+                <button class="button" id="mqtt-temperature-button">Get Temperature</button>
+                <button class="button" id="mqtt-humidity-button">Get Humidity</button>
+                <div id="mqtt-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const temperatureButton = document.getElementById('temperature-button');
+        const humidityButton = document.getElementById('humidity-button');
+        const coapResult = document.getElementById('coap-result');
+        const mqttTemperatureButton = document.getElementById('mqtt-temperature-button');
+        const mqttHumidityButton = document.getElementById('mqtt-humidity-button');
+        const mqttResult = document.getElementById('mqtt-result');
+
+        temperatureButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/coap/temperature');
+                const data = await response.json();
+                coapResult.innerText = `Temperature: ${data.temperature}°C`;
+            } catch (error) {
+                coapResult.innerText = `Error: ${error.message}`;
+            }
+        });
+
+        humidityButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/coap/humidity');
+                const data = await response.json();
+                coapResult.innerText = `Humidity: ${data.humidity}%`;
+            } catch (error) {
+                coapResult.innerText = `Error: ${error.message}`;
+            }
+        });
+
+        mqttTemperatureButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/mqtt/temperature');
+                const data = await response.json();
+                mqttResult.innerText = `Temperature: ${data.temperature}°C`;
+            } catch (error) {
+                mqttResult.innerText = `Error: ${error.message}`;
+            }
+        });
+
+        mqttHumidityButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/mqtt/humidity');
+                const data = await response.json();
+                mqttResult.innerText = `Humidity: ${data.humidity}%`;
+            } catch (error) {
+                mqttResult.innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
